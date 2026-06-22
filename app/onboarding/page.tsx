@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { ChevronLeft } from "lucide-react";
 import { ONBOARDING_STEPS } from "@/lib/constants";
 import { useAppStore } from "@/lib/store";
+import { saveUserProfile } from "@/lib/profile-service";
 import type { OnboardingStep } from "@/lib/types";
 import { ProgressBar } from "@/components/onboarding/ProgressBar";
 import { StepContainer } from "@/components/onboarding/StepContainer";
@@ -48,14 +49,26 @@ export default function OnboardingPage() {
     }
   })();
 
-  const goNext = useCallback(() => {
+  const goNext = useCallback(async () => {
     if (step === 5) {
+      try {
+        // Save profile to Supabase before completing onboarding
+        await saveUserProfile({
+          firstName: profile.firstName ?? "",
+          age: profile.age,
+          position: profile.position,
+        });
+      } catch (error) {
+        console.error("Failed to save profile:", error);
+        // Continue anyway to not block user experience
+      }
+
       completeOnboarding();
       setCelebrating(true);
       return;
     }
     setOnboardingStep((step + 1) as OnboardingStep, 1);
-  }, [step, setOnboardingStep, completeOnboarding]);
+  }, [step, setOnboardingStep, completeOnboarding, profile]);
 
   const goBack = () => {
     if (step > 1) setOnboardingStep((step - 1) as OnboardingStep, -1);
