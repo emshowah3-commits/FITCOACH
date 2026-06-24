@@ -5,10 +5,10 @@ A full-stack Next.js app that learns your sport and level through onboarding, th
 ## Tech Stack
 
 - Next.js 14 (App Router)
-- TypeScript
-- Tailwind CSS + Apple-inspired design tokens
-- Framer Motion
-- Zustand + localStorage persistence
+- TypeScript.
+- Tailwind CSS + Apple-inspired design tokens.
+- Framer Motion.
+- Zustand + localStorage persistence.
 
 ## Getting Started
 
