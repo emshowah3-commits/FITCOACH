@@ -32,14 +32,13 @@ export async function saveUserProfile(data: ProfileData) {
       .from("profiles")
       .upsert(
         {
-          user_id: user.id,
+          auth_user_id: user.id,
           first_name: data.firstName,
-          age: data.age || null,
-          position: data.position || null,
-          updated_at: new Date().toISOString(),
+          user_age: data.age ?? null,
+          position: data.position ?? null,
         },
         {
-          onConflict: "user_id",
+          onConflict: "auth_user_id",
         }
       );
 
